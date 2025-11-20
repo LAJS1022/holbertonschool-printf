@@ -12,6 +12,8 @@ int _printf(const char *format, ...)
     int i = 0, count = 0;
     char c;
     char *s;
+    int n;
+    unsigned int num;
 
     if (!format)
         return (-1);
@@ -44,6 +46,42 @@ int _printf(const char *format, ...)
                 {
                     write(1, s, 1);
                     s++;
+                    count++;
+                }
+            }
+            else if (format[i] == 'd' || format[i] == 'i')
+            {
+                n = va_arg(args, int);
+                if (n < 0)
+                {
+                    write(1, "-", 1);
+                    count++;
+                    num = -n;
+                }
+                else
+                {
+                    num = n;
+                }
+                if (num / 10)
+                {
+                    char buffer[10];
+                    int j = 0;
+
+                    while (num)
+                    {
+                        buffer[j++] = (num % 10) + '0';
+                        num /= 10;
+                    }
+                    while (j--)
+                    {
+                        write(1, &buffer[j], 1);
+                        count++;
+                    }
+                }
+                else
+                {
+                    c = num + '0';
+                    write(1, &c, 1);
                     count++;
                 }
             }
