@@ -20,6 +20,12 @@ int _printf(const char *format, ...)
 
     while (format[i])
     {
+        if (format[i] == '%' && format[i + 1] == '\0')
+        {
+            va_end(args);
+            return (-1);
+        }
+
         if (format[i] == '%')
         {
             i++;
